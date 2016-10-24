@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        
+        <title>Soundboard Jean-Marie Le Pen</title>
+        
+        <link href="https://fonts.googleapis.com/css?family=Chicle|Gudea&subset=latin-ext" rel="stylesheet">
+
+        <style type="text/css" media="screen">
+            body {
+                font-family: 'Gudea', sans-serif;
+                font-size: 16px;
+                background-color: #051440;
+                color: white;
+            }
+
+            h1, h2, h3 {
+                font-family: 'Chicle', cursive;
+                font-weight: normal;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 3em;
+            }
+
+            h1 > sup {
+                font-size: 0.5em;
+                color: #FCF2FC;
+            }
+
+            div {
+                display: inline-block;
+                padding: 0.8em;
+                margin: 1.8em;
+                cursor: pointer;
+                background-color: #EC1920;
+                position: relative;
+            }
+
+            img {
+                position: absolute;
+                top: -70px;
+                right: 0;
+                z-index: -1;
+            }
+
+            div.playing {
+                background-color: #F07175;
+            }
+
+            div > span {
+                display: inline-block;
+                position: relative;
+                background-color: #F25258;
+                top: -1em;
+                left: 1em;
+                padding: 0.5em;
+            }
+
+            div.playing > span {
+                background-color: #F29B9E;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Jean-Marie Le Pen <sup>soundboard</sup></h1>
+
+        <audio src="normalized/bonjour.mp3" controls autobuffer="true" title="bonjour" />
+        <audio src="normalized/calecon.mp3" controls autobuffer="true" title="caleçon" />
+        <audio src="normalized/rajeunit.mp3" controls autobuffer="true" title="ça me rajeunit" />
+        <audio src="normalized/cousins.mp3" controls autobuffer="true" title="cousins d'Algérie" />
+        <audio src="normalized/demotive.mp3" controls autobuffer="true" title="démotivé" />
+        <audio src="normalized/lecons.mp3" controls autobuffer="true" title="donner des leçons" />
+        <audio src="normalized/durafour.mp3" controls autobuffer="true" title="Durafour crématoire" />
+        <audio src="normalized/inegalite.mp3" controls autobuffer="true" title="inégalité des races" />
+        <audio src="normalized/jeanne.mp3" controls autobuffer="true" title="Jeanne, au secours" />
+        <audio src="normalized/souviendrai.mp3" controls autobuffer="true" title="je m'en souviendrai" />
+        <audio src="normalized/charlie.mp3" controls autobuffer="true" title="je ne suis pas Charlie" />
+        <audio src="normalized/honneur.mp3" controls autobuffer="true" title="mon honneur" />
+        <audio src="normalized/declin.mp3" controls autobuffer="true" title="non au déclin" />
+        <audio src="normalized/pede.mp3" controls autobuffer="true" title="pédé" />
+        <audio src="normalized/pedophile.mp3" controls autobuffer="true" title="pédophile" />
+        <audio src="normalized/psychanalyste.mp3" controls autobuffer="true" title="psychanalyste" />
+        <audio src="normalized/ruisselle.mp3" controls autobuffer="true" title="ruisselle du caca" />
+        <audio src="normalized/rouquin.mp3" controls autobuffer="true" title="rouquin" />
+        <audio src="normalized/sidaique.mp3" controls autobuffer="true" title="sidaïque" />
+        <audio src="normalized/an_2000.mp3" controls autobuffer="true" title="société de l'an 2000" />
+        <audio src="normalized/nez.mp3" controls autobuffer="true" title="sur son nez" />
+        <audio src="normalized/au_secours.mp3" controls autobuffer="true" title="toujours pareil, au secours" />
+        <audio src="normalized/vaches.mp3" controls autobuffer="true" title="voir des vaches, des Arabes" />
+        <audio src="normalized/voyou.mp3" controls autobuffer="true" title="voyou de gauche" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
+            var allowedKeys = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
+            var keyToAudio = {};
+
+            $(function() {
+                function play(audio) {
+                    $('audio').each(function(i, audioPlaying) {
+                        if (!audio.paused && audio != audioPlaying) {
+                            audioPlaying.pause();
+                            audioPlaying.currentTime = 0;
+                        }
+                    });
+
+                    audio.relatedButton.addClass('playing');
+                    audio.relatedButton.append($('<img src="img/jmlp.png" width="70" height="70" title="Jean-Marie" />')); // .animate({top: '-100px'}, 500)
+                }
+
+                function pause(audio) {
+                    audio.relatedButton.removeClass('playing');
+                    audio.relatedButton.find('img').remove();
+                }
+
+                $('audio').removeAttr('controls').each(function(i) {
+                    var button = $('<div>' + $(this).attr("title") + '</div>');
+
+                    var audio = this;
+                    this.addEventListener('play', function() { play(audio); });
+                    this.addEventListener('pause', function() { pause(audio); });
+                    button.click(function() { audio.play(); });
+
+                    if (i in allowedKeys) {
+                        var key = allowedKeys[i];
+                        keyToAudio[key] = audio;
+                        button.append($('<span>' + key + '</span>'));
+                    }
+
+                    this.relatedButton = button;
+
+                    $('body').append(button);
+                });
+
+                document.addEventListener('keyup', function (e) {
+                    if (e.key in keyToAudio) {
+                        keyToAudio[e.key].play();
+                    }
+                }, false);
+            });
+        </script>
+
+    </body>
+</html>
